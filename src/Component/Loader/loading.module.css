@@ -1,0 +1,47 @@
+/* height={100}
+          width={100}
+          color="#4fa94d"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4fa94d"
+          strokeWidth={2}
+          strokeWidthSecondary={2} */
+
+
+          .spinner{
+ 
+              /* display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: auto; */
+              position: fixed;
+              width: 300px;
+              height: 200px;
+              margin: auto;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              top: 0;
+          }
+
+          .loading {
+            height: 200px;
+            width: 200px;
+            color: #4fa94d;
+            visibility: visible; /* CSS value for visibility can be 'visible' or 'hidden' */
+          }
+          
+          /* Example additional properties for SVG elements if needed */
+          .loading svg {
+            stroke-width: 2;
+            stroke: #4fa94d; /* Assuming this is for the primary color */
+          }
+          
+          /* If you have a secondary stroke color for an SVG */
+          .loading svg .secondary {
+            stroke-width: 2;
+            stroke: #4fa94d; /* Secondary color */
+          }
+          
+          
+          

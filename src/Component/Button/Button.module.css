@@ -1,0 +1,33 @@
+/* Button.module.css */
+
+/* Common styles for all buttons */
+.button {
+  background-color: #0056b3;
+  color: white;
+  width: 150px; /* Set a fixed width */
+  height: 40px; /* Set a fixed height */
+  display: inline-block; /* Ensure the element is treated as a block-level element */
+  text-align: center; /* Center the text horizontally */
+  line-height: 40px; /* Center the text vertically */
+  box-sizing: border-box; /* Include padding and borders in the width and height */
+  border: none; /* Remove default button border */
+  padding: 0; /* Remove default button padding */
+  font-size: 16px; /* Adjust font size as needed */
+  cursor: pointer;
+  }
+  
+  /* Hover effects for all buttons */
+  .button:hover {
+    filter: brightness(0.8);
+  }
+  
+  /* Variants */
+  .btn-primary {
+    background-color: #0056b3;
+  }
+  
+ 
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  

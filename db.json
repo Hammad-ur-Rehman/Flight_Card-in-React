@@ -1,0 +1,50 @@
+{
+    "flightdetails": [
+      {
+        "FareOption": "Free Baggage",
+        "CheckBaggage": "Total: 20Kg PCs: 1",
+        "Cancellation": "Penalties apply",
+        "Modification": "Penalties apply",
+        "Seat": "Not included",
+        "Meal": "Included",
+        "Price":"PKR 32,000"
+      },
+      {
+        "FareOption": "Sasta Flex",
+        "CheckBaggage": "Total: 20Kg PCs: 1",
+        "Cancellation": "Penalties apply",
+        "Modification": "Penalties apply",
+        "Seat": "Not included",
+        "NoMeal": "Included",
+        "Price":"PKR 32,000"
+      },
+      {
+        "FareOption": "Economy Regular",
+        "CheckBaggage": "Total: 20Kg PCs: 1",
+        "Cancellation": "PKR 24,490/- refundable",
+        "Modification": "No modification charges",
+        "Seat": "Not included",
+        "Meal": "Included",
+        "Price":"PKR 36,000"
+      },
+      {
+        "FareOption": "Basic",
+        "CheckBaggage": "Total: 20Kg PCs: 1",
+        "Cancellation": "PKR 25,490/- refundable",
+        "Modification": "No modification charges",
+        "Seat": "Not included",
+        "NoMeal":"Not Included",
+         "Price":"PKR 40,000"
+      },
+      {
+        "FareOption": "Sasta Flex",
+        "CheckBaggage": "Total: 20Kg PCs: 1",
+        "Cancellation": "Penalties apply",
+        "Modification": "Penalties apply",
+        "Seat": "Not included",
+        "NoMeal": "Not Included",
+        "Price":"PKR 39,000"
+      }
+     
+    ]
+  }
