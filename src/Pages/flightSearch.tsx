@@ -11,10 +11,9 @@ import airlineImages from "../Component/images/airlineImage";
 import { LuBaggageClaim } from "react-icons/lu";
 import { GiMeal } from "react-icons/gi";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
-import  flightbaggageimage from "../Component/images/flight-baggag.svg"
-import  flightmeal from "../Component/images/flight-meal.svg"
-import  flightseat from "../Component/images/flight-seat.svg"
-
+import flightbaggageimage from "../Component/images/flight-baggag.svg";
+import flightmeal from "../Component/images/flight-meal.svg";
+import flightseat from "../Component/images/flight-seat.svg";
 
 const Flightsearch: React.FC = () => {
   const [loader, setLoader] = useState<boolean>(false);
@@ -39,23 +38,29 @@ const Flightsearch: React.FC = () => {
         setPollingActive(false); // Stop polling after max duration
         return;
       }
-  
+
       try {
         console.log("Fetching data...");
         const response: ApiResponse = await flightSearchRequest(networkPayLoad);
         const flightsData: FlightDetails[] = response.data.flights.flat();
         console.log("Flights data", flightsData);
-  
+
         // Function to calculate the time difference between origin and destination
-        const calculateFlightDuration = (departureTime: string, arrivalTime: string) => {
+        const calculateFlightDuration = (
+          departureTime: string,
+          arrivalTime: string
+        ) => {
           const departureDate = new Date(departureTime);
           const arrivalDate = new Date(arrivalTime);
-          const timeDifference = arrivalDate.getTime() - departureDate.getTime();
+          const timeDifference =
+            arrivalDate.getTime() - departureDate.getTime();
           const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-          const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+          const minutes = Math.floor(
+            (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+          );
           return { hours, minutes };
         };
-  
+
         if (flightsData && flightsData.length > 0) {
           let data: any = [];
           flightsData.map((item: any) => {
@@ -64,9 +69,12 @@ const Flightsearch: React.FC = () => {
             const flightNumber = segment.flight_number[0];
             const meta = item.meta;
             const fare_options = item.fare_options[0].offers_grid;
-            
-            const { hours, minutes } = calculateFlightDuration(segment.departure_datetime, segment.arrival_datetime);
-  
+
+            const { hours, minutes } = calculateFlightDuration(
+              segment.departure_datetime,
+              segment.arrival_datetime
+            );
+
             const flightObject = {
               provider: item.provider,
               airlineName: leg.operating_airline.name,
@@ -80,20 +88,23 @@ const Flightsearch: React.FC = () => {
               price: meta.price,
               flightNumber: flightNumber,
               duration: `${hours}h ${minutes}m`,
-              baggage:fare_options.baggage,
-              cancellation:fare_options.cancellation,
-              modification:fare_options.modification,
-              seat:fare_options.seat,
-              meal:fare_options.meal,
-              fare_name:fare_options.fare_name,
+              baggage: fare_options.baggage,
+              cancellation: fare_options.cancellation,
+              modification: fare_options.modification,
+              seat: fare_options.seat,
+              meal: fare_options.meal,
+              fare_name: item.fare_options[0].fare_name,
+              // fare_name:fare_options.fare_name
             };
-  
+            console.log("Fare options for flight:", flightObject.fare_name); // Log the fare options
             data.push(flightObject);
           });
-  
+
           setData(data);
         }
-  
+
+        // console.log("Card data" , data);
+
         // Continue polling only if response.poll is true
         if (!response.poll) {
           setTimeout(() => {
@@ -105,23 +116,22 @@ const Flightsearch: React.FC = () => {
         }
       } catch (error) {
         console.log("Error fetching data:", error);
-  
+
         // Retry after delay if error occurs
         setTimeout(() => {
           startPolling(elapsedTime + POLLING_INTERVAL);
         }, POLLING_INTERVAL);
       }
     };
-  
+
     if (pollingActive) {
       startPolling(0); // Start polling with an elapsed time of 0
     }
-  
+
     return () => {
       setPollingActive(false); // Clean up on unmount or when polling stops
     };
   }, [pollingActive]);
-  
 
   const startPollingonClick = () => {
     console.log("Starting polling...");
@@ -134,13 +144,13 @@ const Flightsearch: React.FC = () => {
   //       setPollingActive(false); // Stop polling after max duration
   //       return;
   //     }
-  
+
   //     try {
   //       console.log("Fetching data...");
   //       const response: ApiResponse = await flightSearchRequest(networkPayLoad);
   //       const flightsData: FlightDetails[] = response.data.flights.flat();
   //       console.log("Flights data", flightsData);
-  
+
   //       // Function to calculate the time difference between origin and destination
   //       const calculateFlightDuration = (departureTime: string, arrivalTime: string) => {
   //         const departureDate = new Date(departureTime);
@@ -150,7 +160,7 @@ const Flightsearch: React.FC = () => {
   //         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
   //         return { hours, minutes };
   //       };
-  
+
   //       if (flightsData && flightsData.length > 0) {
   //         let data: any = [];
   //         flightsData.map((item: any) => {
@@ -158,9 +168,9 @@ const Flightsearch: React.FC = () => {
   //           const segment = item.legs[0].segments[0];
   //           const flightNumber = segment.flight_number[0];
   //           const meta = item.meta;
-  
+
   //           const { hours, minutes } = calculateFlightDuration(segment.departure_datetime, segment.arrival_datetime);
-  
+
   //           const flightObject = {
   //             provider: item.provider,
   //             airlineName: leg.operating_airline.name,
@@ -175,48 +185,47 @@ const Flightsearch: React.FC = () => {
   //             flightNumber: flightNumber,
   //             duration: `${hours}h ${minutes}m`,
   //           };
-  
+
   //           data.push(flightObject);
   //         });
-  
+
   //         setData(data);
   //       }
-  
+
   //       // Stop polling if poll is false
   //       if (!response.poll) {
   //         console.log("Polling stopped by server.");
   //         setPollingActive(false); // Stop polling if `poll` flag is false
   //         return; // Exit from the polling function
   //       }
-  
+
   //       // Continue polling if poll is true and hasn't reached max duration
   //       setTimeout(() => {
   //         startPolling(elapsedTime + POLLING_INTERVAL);
   //       }, POLLING_INTERVAL);
-        
+
   //     } catch (error) {
   //       console.log("Error fetching data:", error);
-  
+
   //       // Stop polling on error (optional)
-  //       setPollingActive(false); 
+  //       setPollingActive(false);
   //     }
   //   };
-  
+
   //   // Start polling on component mount
   //   if (pollingActive) {
   //     startPolling(0); // Start polling with an elapsed time of 0
   //   }
-  
+
   //   return () => {
   //     setPollingActive(false); // Clean up on unmount or when polling stops
   //   };
   // }, [pollingActive]);
-  
+
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US"); // You can also change the locale if needed
   };
 
- 
   return (
     <>
       {loader && (
@@ -225,49 +234,83 @@ const Flightsearch: React.FC = () => {
         </div>
       )}
       <div className="Container">
-  <div className="airblue_data">
-    {data && data.length > 0 ? (
-      data.map((flight, index) => {
-        return (
-          <div key={index} ref={flightCardRef}>
-            <FlightCard
-              id={index}
-              toggleDrawer={toggleDrawer}
-              isDrawerOpen={!!openCards[index]}
-              provider={flight.provider}
-              airlineName={flight.airlineName}
-              flightNumber={flight.flightNumber}
-              origin={flight.origin}
-              destination={flight.destination}
-              departureTime={flight.departureTime}
-              arrivalTime={flight.arrivalTime}
-              has_meal={flight.has_meal}
-              price={flight.price}
-              duration={flight.duration}
-              origincity={flight.origincity}
-              destinationcity={flight.destinationcity}
-              image={airlineImages[flight.airlineName]}
-            />
-            {openCards[index] && (
-              <Drawer
-                isOpen={openCards[index]}
-                onClose={() => toggleDrawer(index)}
-                cardRef={flightCardRef}
-                flightdetails={[flight]}>
-                <div className="container">
-                  <table className="table_data">
-                    <thead className="flight_options">
-                      <tr>
-                        <th>Fare Options</th>
-                        <th>Check-in Baggage</th>
-                        <th>Cancellation</th>
-                        <th>Modification</th>
-                        <th>Seat</th>
-                        <th>Meal</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
+        <div className="airblue_data">
+          {data && Array.isArray(data) && data.length > 0 ? (
+            data.map((flight: FlightDetails, index: number) => {
+              // console.log("Flight object:", flight);
+
+              return (
+                <div key={index} ref={flightCardRef}>
+                  <FlightCard
+                    id={index}
+                    toggleDrawer={toggleDrawer}
+                    isDrawerOpen={!!openCards[index]}
+                    provider={flight.provider}
+                    airlineName={flight.airlineName}
+                    flightNumber={flight.flightNumber}
+                    origin={flight.origin}
+                    destination={flight.destination}
+                    departureTime={flight.departureTime}
+                    arrivalTime={flight.arrivalTime}
+                    has_meal={flight.has_meal}
+                    price={flight.price}
+                    duration={flight.duration}
+                    origincity={flight.origincity}
+                    destinationcity={flight.destinationcity}
+                    image={airlineImages[flight.airlineName]}
+                  />
+                  {openCards[index] && (
+                    <Drawer
+                      isOpen={openCards[index]}
+                      onClose={() => toggleDrawer(index)}
+                      cardRef={flightCardRef}
+                      flightdetails={[flight]}
+                    >
+                      <div className="container">
+                        <table className="table_data">
+                          <thead className="flight_options">
+                            <tr>
+                              <th>Fare Options</th>
+                              <th>Check-in Baggage</th>
+                              <th>Cancellation</th>
+                              <th>Modification</th>
+                              <th>Seat</th>
+                              <th>Meal</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          {/* {flight.fare_options && (
+                            <>
+                              {console.log(
+                                "Fare options for flight:",
+                                flight.fare_options
+                              )}
+                              {flight.fare_options.map(
+                                (option: any, id: number) => (
+                                  <tbody key={id}>
+                                    <tr>
+                                      <td>
+                                        <span>{option.fare_name}</span>
+                                      </td>
+                                      <td>{option.baggage}</td>
+                                      <td>{option.cancellation}</td>
+                                      <td>{option.modification}</td>
+                                      <td>{option.seat}</td>
+                                      <td>{option.meal}</td>
+                                      <td>
+                                        <Button className="search-flight-card-price-button">
+                                          <span>
+                                            PKR&nbsp;{formatPrice(option.price)}{" "}
+                                          </span>
+                                        </Button>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                )
+                              )}
+                            </>
+                          )} */}
+                          <tbody>
                     <tr key={index}>
                       <td><span>{flight.fare_name}</span></td>
                       <td><span><img src ={flightbaggageimage} alt="Baggage Icon"/>{flight.baggage}</span></td>
@@ -282,19 +325,18 @@ const Flightsearch: React.FC = () => {
                       </td>
                     </tr>
                     </tbody>
-                  </table>
+                        </table>
+                      </div>
+                    </Drawer>
+                  )}
                 </div>
-              </Drawer>
-            )}
-          </div>
-        );
-      })
-    ) : (
-      <p>No flight data available</p>
-    )}
-  </div>
-</div>
-
+              );
+            })
+          ) : (
+            <p>No flight data available</p>
+          )}
+        </div>
+      </div>
     </>
   );
 };

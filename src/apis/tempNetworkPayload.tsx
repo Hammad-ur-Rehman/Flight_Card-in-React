@@ -6,7 +6,7 @@ const networkPayLoad = {
     },
     legs: [
       {
-        departure_date: "2024-10-12", 
+        departure_date: "2024-10-14", 
         origin: "KHI", 
         destination: "ISB", 
       },
