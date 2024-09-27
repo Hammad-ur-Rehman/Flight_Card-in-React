@@ -68,7 +68,8 @@ const Flightsearch: React.FC = () => {
             const segment = item.legs[0].segments[0];
             const flightNumber = segment.flight_number[0];
             const meta = item.meta;
-            const fare_options = item.fare_options[0].offers_grid;
+            const fare_options = item.fare_options;
+
 
             const { hours, minutes } = calculateFlightDuration(
               segment.departure_datetime,
@@ -94,6 +95,7 @@ const Flightsearch: React.FC = () => {
               seat: fare_options.seat,
               meal: fare_options.meal,
               fare_name: item.fare_options[0].fare_name,
+              fare_options:fare_options
               // fare_name:fare_options.fare_name
             };
             console.log("Fare options for flight:", flightObject.fare_name); // Log the fare options
@@ -237,7 +239,7 @@ const Flightsearch: React.FC = () => {
         <div className="airblue_data">
           {data && Array.isArray(data) && data.length > 0 ? (
             data.map((flight: FlightDetails, index: number) => {
-              // console.log("Flight object:", flight);
+              console.log("Flight object:", flight);
 
               return (
                 <div key={index} ref={flightCardRef}>
@@ -279,52 +281,52 @@ const Flightsearch: React.FC = () => {
                               <th></th>
                             </tr>
                           </thead>
-                          {/* {flight.fare_options && (
-                            <>
-                              {console.log(
-                                "Fare options for flight:",
-                                flight.fare_options
-                              )}
-                              {flight.fare_options.map(
-                                (option: any, id: number) => (
-                                  <tbody key={id}>
-                                    <tr>
-                                      <td>
-                                        <span>{option.fare_name}</span>
-                                      </td>
-                                      <td>{option.baggage}</td>
-                                      <td>{option.cancellation}</td>
-                                      <td>{option.modification}</td>
-                                      <td>{option.seat}</td>
-                                      <td>{option.meal}</td>
-                                      <td>
-                                        <Button className="search-flight-card-price-button">
-                                          <span>
-                                            PKR&nbsp;{formatPrice(option.price)}{" "}
-                                          </span>
-                                        </Button>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                )
-                              )}
-                            </>
-                          )} */}
+
                           <tbody>
+                            {flight.fare_options &&
+                            flight.fare_options.length > 0 ? (
+                              flight.fare_options.map((option:any, id: number) => 
+                                  
+                                  (
+                                  <tr key={id}>
+                                    <td>{option.fare_name}</td>
+                                    <td>{option.offers_grid.baggage}</td>
+                                    <td>{option.offers_grid.cancellation}</td>
+                                    <td>{option.offers_grid.modification}</td>
+                                    <td>{option.offers_grid.seat}</td>
+                                    <td>{option.offers_grid.meal}</td>
+                                    <td>
+                                      <Button className="search-flight-card-price-button">
+                                        <span>
+                                          PKR&nbsp;{formatPrice(option.price.selling_fare)}{" "}
+                                        </span>
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                )
+                              )
+                            ) : (
+                              <tr>
+                                <td colSpan={7}>No fare options available</td>
+                              </tr>
+                            )}
+                          </tbody> 
+
+                          {/* <tbody>
                     <tr key={index}>
                       <td><span>{flight.fare_name}</span></td>
-                      <td><span><img src ={flightbaggageimage} alt="Baggage Icon"/>{flight.baggage}</span></td>
+                      <td>{flight.baggage}</td>
                       <td>{flight.cancellation}</td>
                       <td>{flight.modification}</td>
-                      <td><span><img src ={flightseat} alt="flightseat Icon"/>{flight.seat}</span></td>
-                      <td><span><img src ={flightmeal} alt="flightmeal Icon"/>{flight.meal}</span></td>
+                      <td>{flight.seat}</td>
+                      <td>{flight.meal}</td>
                       <td>
                         <Button className="search-flight-card-price-button">
                           <span>PKR&nbsp;{formatPrice(flight.price)} </span> 
                         </Button>
                       </td>
                     </tr>
-                    </tbody>
+                    </tbody> */}
                         </table>
                       </div>
                     </Drawer>
