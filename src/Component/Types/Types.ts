@@ -89,7 +89,8 @@ export interface FlightDetails {
   cancellation:string;
   meal:string;
   seat:string;
-  modification:string
+  modification:string;
+  fare_options:[]
   
 }
 
